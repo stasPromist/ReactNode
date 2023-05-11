@@ -1,0 +1,19 @@
+/* .grid2 {
+    display: flex;
+    justify-content:center;
+
+} */
+
+/* .list {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    
+} */
+
+.swal-modal {
+    background-color: rgba(63,255,106,0.69);
+    border: 3px solid white;
+  }
+
+ 
