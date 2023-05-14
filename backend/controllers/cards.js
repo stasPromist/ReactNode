@@ -77,6 +77,7 @@ module.exports = {
                 url: joi.string().min(6).max(1024),
                 alt: joi.string().min(2).max(256),
                 image: joi.string().min(6).max(1024),
+                price: joi.string().min(1).max(7).required(),
             });
             const { error, value } = schema.validate(req.body);
             console.log(value)
@@ -97,8 +98,10 @@ module.exports = {
                         : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
                     alt: value.alt ? value.alt : "Pic Of Business Card",
                 },
+                price: value.price,
                 bizNumber: Math.floor(Math.random() * 10000000),
                 user_id: user._id,
+               
             });
             const newCard = await card.save();
             res.json(newCard);
@@ -124,7 +127,8 @@ module.exports = {
                 image: {
                     url: joi.string().min(6).max(1024),
                     alt: joi.string().min(2).max(256),
-                }
+                },
+                price: joi.string().min(1).max(7).required(),
             }).min(1);
             const { error, value } = schema.validate(req.body);
             if (error) {

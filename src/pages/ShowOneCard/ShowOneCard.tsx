@@ -17,7 +17,8 @@ export interface ICardData {
         url: string,
         alt: string
     }
-    url: string
+    url: string,
+    price: string,
 };
 
 function OneCard() {
@@ -28,6 +29,7 @@ function OneCard() {
     const [address, setAddress] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [image, setImage] = useState<string>('');
+    const [price, setPrice] = useState<string>('');
     const [error, setError] = useState<string>('');
     const { id } = useParams();
     const context = useContext(AppContext);
@@ -50,6 +52,7 @@ function OneCard() {
                 setAddress(json.address);
                 setPhone(json.phone);
                 setImage(json.image.url);
+                setPrice(json.price);
             })
     }, [id]);
 
@@ -73,6 +76,8 @@ function OneCard() {
                                 <p className="card-text"><span className="text-success text-uppercase fw-bold">Ingredients:</span> {ingredients}</p>
                                 <p className="card-text"><span className="text-success text-uppercase fw-bold">Address:</span> {address}</p><hr></hr>
                                 <p className="card-text"><span className="text-success text-uppercase fw-bold">Phone:</span> {phone}</p><hr></hr>
+                                <p className="card-text"><span className="text-success text-uppercase fw-bold">Price:</span> {price}</p><hr></hr>
+
                             </div>
                             <div className="d-flex justify-content-between mb-3">
                                 {

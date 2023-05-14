@@ -49,6 +49,12 @@ const cardSchema = new mongoose.Schema({
         },
         alt: { type: String, required: true, minlength: 2, maxlength: 256 },
     },
+    price: {
+        type: String,
+        required: true,
+        minlength: 1,
+        maxlength: 7,
+    },
     bizNumber: {
         type: String,
         minlength: 7,

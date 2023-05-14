@@ -12,8 +12,9 @@ export interface ICardData {
     ingredients: string,
     address: StaticRangeInit,
     phone: string,
-    url: string
-    category: string
+    url: string,
+    category: string,
+    price: string
 }
 
 function Businesscard() {
@@ -25,6 +26,8 @@ function Businesscard() {
     const [address, setAddress] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [url, setUrl] = useState<string>('');
+    const [price, setPrice] = useState<string>('');
+
 
     function submit() {
         console.log('hello');
@@ -36,6 +39,8 @@ function Businesscard() {
             phone: Joi.string().min(9).max(14).required(),
             url: Joi.string().min(2).max(256).required(),
             category: Joi.string().min(2).max(256).required(),
+            price: Joi.string().min(1).max(7).required(),
+
         });
 
         const { error, value } = schema.validate({
@@ -45,7 +50,8 @@ function Businesscard() {
             address,
             phone,
             url,
-            category
+            category,
+            price
         });
         if (error) {
             console.log('ededde');
@@ -127,7 +133,7 @@ function Businesscard() {
                                             <div className="invalid-feedback">Description invalid</div>
                                         </div>
                                         <div className="mb-3 form-check">
-                                            <label htmlFor="basic-description" className="form-label">Ingredients</label>
+                                            <label htmlFor="basic-ingredients" className="form-label">Ingredients</label>
                                             <input
                                                 id="basic-ingredients" required
                                                 type="text"
@@ -174,6 +180,18 @@ function Businesscard() {
                                                 onChange={(e) => setUrl(e.target.value)}
                                             ></input>
                                             <div className="invalid-feedback">Image invalid</div>
+                                        </div>
+                                        <div className="mb-3 form-check">
+                                            <label htmlFor="basic-price" className="form-label">Price</label>
+                                            <input
+                                                id="basic-price" required
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="price"
+                                                value={price}
+                                                onChange={(e) => setPrice(e.target.value)}
+                                            ></input>
+                                            <div className="invalid-feedback">Price invalid</div>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <button

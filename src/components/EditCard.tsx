@@ -17,6 +17,8 @@ function Edit() {
     const [phone, setPhone] = useState<string>('');
     const [url, setUrl] = useState<string>('');
     const [alt, setAlt] = useState<string>('');
+    const [price, setPrice] = useState<string>('');
+
     const [error, setError] = useState<string>('');
     const { id } = useParams();
 
@@ -38,6 +40,7 @@ function Edit() {
                 setPhone(json.phone);
                 setUrl(json.image.url);
                 setAlt(json.image.alt);
+                setPrice(json.price);
             })
     }, [id]);
 
@@ -53,7 +56,8 @@ function Edit() {
             image: {
                 url: Joi.string().min(2).max(256).required(),
                 alt: Joi.string().min(2).max(256).required(),
-            }
+            },
+            price: Joi.string().min(1).max(7).required(),
         });
 
         const { error, value } = schema.validate({
@@ -65,7 +69,8 @@ function Edit() {
             phone,
             image: {
                 url, alt
-            }
+            },
+            price
         });
 
         if (error) {
@@ -211,6 +216,19 @@ function Edit() {
                                             className="form-control me-3"
                                             type="text"
                                             placeholder="Alt"
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label
+                                            className="form-label">
+                                           Price
+                                        </label>
+                                        <input
+                                            value={price}
+                                            onChange={(e) => setPrice(e.target.value)}
+                                            className="form-control me-3"
+                                            type="text"
+                                            placeholder="Price"
                                         />
                                     </div>
                                     <button

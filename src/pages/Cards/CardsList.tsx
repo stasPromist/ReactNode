@@ -20,7 +20,8 @@ export interface ICardData {
         url: string,
         alt: string
     },
-    category: Categories;
+    category: Categories,
+    price: string
 };
 
 export interface UserUp {
