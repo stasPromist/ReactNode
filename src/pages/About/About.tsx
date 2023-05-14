@@ -12,7 +12,7 @@ function About() {
                     </div>
                     <div className="row  mb-5">
                         <div className="col-lg-4">
-                            <img src="../images/Inga-11.jpg" className="img-fluid  mb-5" alt="sunscreen" />
+                            <img src="../images/Inga-11.jpg" className="img-fluid  mb-5" alt="sunscreen cream" />
                         </div>
                         <div className="col-lg-8 pt-4 pt-lg-0 content">
                             <p className="fst-italic text-lg-left fs-2" >

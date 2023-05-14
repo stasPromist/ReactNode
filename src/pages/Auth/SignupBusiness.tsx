@@ -1,51 +1,44 @@
 import Joi from "joi";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Title from "../../components/Title/Title";
 import { postRequest } from "../../services/apiService";
+import Title from "../../components/Title/Title";
 
-export interface ISignupData {
-    _id: number,
-    image: {
-        url: string,
-        alt: string
-    },
-    url: string,
+interface ISignupData {
     name: string,
     email: string,
     password: string,
-    isBiz?: Boolean,
-    isAdmin?: ReactNode,
-    favCards?: [] | any
 }
 
-function Signup() {
+function Business() {
     const navigate = useNavigate();
     const [url, setUrl] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [userName, setUserName] = useState<string>('');
 
     function submit() {
-        console.log('hello')
         const schema = Joi.object().keys({
             url: Joi.string().min(2).max(256),
             name: Joi.string().required().min(2).max(256),
             email: Joi.string().required().min(6).max(256).email({ tlds: { allow: false } }),
             password: Joi.string().min(6).max(30),
-            isBiz: Joi.boolean().required()
+            isBiz: Joi.boolean().required(),
         });
         const { error, value } = schema.validate({
             name,
             email,
             password,
-            isBiz: false
+            isBiz: true,
         });
         if (error) {
             // setError(error.message);
             console.log(error.message)
-            toast.error(error.message);
+            toast.error(error.message, {
+                position: toast.POSITION.TOP_CENTER
+            });
             return;
         }
         register(value)
@@ -58,6 +51,7 @@ function Signup() {
             false,
         );
         if (!res) return;
+
         res.then(response => response.json())
             .then(json => {
                 if (json.error) {
@@ -74,18 +68,18 @@ function Signup() {
                         });
                     return;
                 }
-                toast.success('Successfully created a new user' + ' ' + `${json.name}` + '!', {
-                    position: toast.POSITION.TOP_CENTER
-                });
+                setUserName(name)
                 navigate('/signin')
             })
     }
+
     return (
         <>
-            <Title main="Sign up"
+        {/* <div className="p-3 form-max-w m-auto was-validated"> */}
+            <Title main="Sign up as a business user"
                 sub="register to the application"
             />
-            <div className="container">
+             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-xl-10 col-lg-12 col-md-9">
                         <div className="card o-hidden border-0 shadow-lg my-5">
@@ -170,8 +164,9 @@ function Signup() {
                     </div>
                 </div>
             </div>
-        </>
+         </>
     );
-}
 
-export default Signup;
+}
+export default Business;
+

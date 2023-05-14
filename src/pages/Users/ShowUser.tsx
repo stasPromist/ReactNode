@@ -53,7 +53,7 @@ function ShowUser() {
         if (error) {
             return;
         }
-        // setError('');
+       
         updateUser(value);
 
     }
@@ -71,9 +71,8 @@ function ShowUser() {
                     // setError(json.error);
                     return;
                 }
-                console.log(json)
-                swal({
-                    icon: "success",
+                toast.info('Successfully updated', {
+                    position: toast.POSITION.TOP_CENTER
                 });
                 console.log(json)
                 navigate('/AllUsers')

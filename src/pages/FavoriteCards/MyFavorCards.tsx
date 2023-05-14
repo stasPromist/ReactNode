@@ -7,6 +7,7 @@ import Title from "../../components/Title/Title";
 import './MyFavorCards.css';
 import { ICardData } from "../types";
 
+
 function MyFavorCards() {
     const [cards, setCards] = useState<Array<ICardData>>([]);
     const context = useContext(AppContext);
@@ -48,11 +49,13 @@ function MyFavorCards() {
         if (!res) return;
         res.then(response => response.json())
             .then(json => {
-
                 const updated = [...cards].filter(cardItem =>
                     cardItem._id !== card._id
                 )
-                setCards(updated);
+                toast.info('Successfully deleted', {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                setCards(updated);             
             })
     }
 

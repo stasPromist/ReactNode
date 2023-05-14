@@ -5,7 +5,6 @@ import { AppContext } from "../../App";
 import { deleteRequest, getRequest, patchRequest } from "../../services/apiService";
 import { Categories } from "../types";
 import Title from "../../components/Title/Title";
-import swal from "sweetalert";
 import './CardList.css';
 
 export interface ICardData {
@@ -66,8 +65,8 @@ function CardsList() {
                     cardItem._id !== card._id
                 )
                 setCards(updated);
-                swal({
-                    icon: "success",
+                toast.info('Successfully deleted', {
+                    position: toast.POSITION.TOP_CENTER
                 });
             })
     }

@@ -47,6 +47,9 @@ function AllUsers() {
                 const updated = [...users].filter(cardItem =>
                     cardItem._id !== user._id
                 );
+                toast.info('Successfully deleted', {
+                    position: toast.POSITION.TOP_CENTER
+                });
                 setUsers(updated)
             })
     }

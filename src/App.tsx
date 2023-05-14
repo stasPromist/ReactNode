@@ -10,7 +10,7 @@ import Signin from './pages/Auth/Signin';
 import Signup, { ISignupData } from './pages/Auth/Signup';
 import { setToken } from './pages/Auth/Token';
 import AllCardsList from './components/AllCardsList';
-import Business from './pages/Auth/Business';
+import Business from './pages/Auth/SignupBusiness';
 import Businesscard from './pages/Cards/CreateCard';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
@@ -72,6 +72,9 @@ function App() {
           setAdmin(json.isAdmin);
           setUserName(json.id)
           navigate('/myFavorCards')
+          toast.success('Welcome' + ' ' + `${json.name}` + '!', {
+            position: toast.POSITION.TOP_CENTER
+        });
         }
       }).catch((error) => {
         console.log(error)
@@ -116,6 +119,9 @@ function App() {
   }, []);
 
   function handleLogout() {
+    toast.success('Logout was successful,see you later', {
+      position: toast.POSITION.TOP_CENTER
+  });
     setISBiz(false);
     setUserName('');
     navigate('/entarence');
