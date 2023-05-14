@@ -6,6 +6,7 @@ import { deleteRequest, getRequest, patchRequest } from "../../services/apiServi
 import { Categories } from "../types";
 import Title from "../../components/Title/Title";
 import swal from "sweetalert";
+import './CardList.css';
 
 export interface ICardData {
     _id: number,
@@ -91,7 +92,7 @@ function CardsList() {
                 main="Your Cards List"
                 sub="Have been created by you"
             />
-            <div className="grid p-5 " >
+            <div className="maingrid p-5 " >
                 {
 
                     cards.length === 0 ? (
@@ -110,8 +111,8 @@ function CardsList() {
                                 <div className="pb-5 ">
                                     <div className="col p-5 d-flex justify-content-center">
                                         <div className=" shadow-lg p-3 mb-5 bg-body rounded">
-                                            <img src={card.image.url} className="figure-img img-fluid rounded sizeCard" alt={card.image.alt} />
-                                            <div className="card-body mt-2">
+                                            <img src={card.image.url} className="figure-img img-fluid rounded sizePicture" alt={card.image.alt} />
+                                            <div className="card-body">
                                                 <p className="card-title mb-2">
                                                     <span className="text-success text-uppercase fw-bold">Product name:</span> {card.title} </p>
                                                 <p className="card-text">

@@ -1,0 +1,20 @@
+.maingrid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+  
+  @media screen and (max-width: 1650px) {
+    .maingrid {
+      grid-template-columns: auto auto;
+    }
+  }
+  
+  @media screen and (max-width: 1100px) {
+    .maingrid {
+      grid-template-columns: auto; 
+    }
+  }
+  
+  /* .sizePicture {
+    max-width: 400px;
+  } */

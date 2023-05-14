@@ -80,7 +80,7 @@ function MyFavorCards() {
                         </>) : (
                         cards.map(card =>
                             <div key={card._id}>
-                                <div className="pb-5 wit">
+                                <div className="pb-5">
                                     <div className="col p-5 d-flex justify-content-center  ">
                                         <div className=" shadow-lg p-3 mb-5 bg-body rounded">
                                             <img src={card.image.url} className="figure-img img-fluid rounded sizePicture" alt={card.image.alt} />
