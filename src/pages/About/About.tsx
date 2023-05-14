@@ -1,4 +1,4 @@
-import Title from "../../components/Title";
+import Title from "../../components/Title/Title";
 
 function About() {
     return (
@@ -6,11 +6,9 @@ function About() {
             <Title main="About this platform"
                 sub="All about beauty"
             />
-
             <div className="container">
                 <section id="about" className="about">
                     <div className="section-title text-center mt-5">
-
                     </div>
                     <div className="row  mb-5">
                         <div className="col-lg-4">
@@ -23,22 +21,10 @@ function About() {
 
                                 Be naturally beautiful...
                                 Sincerely, Beauty&health</p>
-
-
-                            {/* <p>Будьте красивыми от природы</p>
-                            <p>Инга Барская</p>
-
-
-                            <p>P.S. благодарю всех моих друзей, кто вдохновлял, кто помогал в развитии бренда, спасибо моему любимому
-                                мужу за этот чудесный сайт</p> */}
-
                         </div>
                     </div>
                 </section>
             </div>
-
-
-
         </>
     );
 }

@@ -19,15 +19,15 @@ const cardSchema = new mongoose.Schema({
         minlength: 2,
         maxlength: 1024,
     },
-    //
-   
+
+
     ingredients: {
         type: String,
         required: true,
         minlength: 2,
         maxlength: 1024,
     },
-    //
+
     address: {
         type: String,
         required: true,

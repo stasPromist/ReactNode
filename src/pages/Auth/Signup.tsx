@@ -1,52 +1,53 @@
 import Joi from "joi";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { postRequest } from "../services/apiService";
-import Title from "../components/Title";
+import Title from "../../components/Title/Title";
+import { postRequest } from "../../services/apiService";
 
-interface ISignupData {
+export interface ISignupData {
+    _id: number,
+    image: {
+        url: string,
+        alt: string
+    },
+    url: string,
     name: string,
     email: string,
     password: string,
-    // isBiz?: Boolean,
+    isBiz?: Boolean,
+    isAdmin?: ReactNode,
+    favCards?: [] | any
 }
 
-
-function Business() {
+function Signup() {
     const navigate = useNavigate();
+    const [url, setUrl] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [userName, setUserName] = useState<string>('');
-    // const [isBiz, setIsBiz] = useState<boolean>(true);
-
 
     function submit() {
+        console.log('hello')
         const schema = Joi.object().keys({
+            url: Joi.string().min(2).max(256),
             name: Joi.string().required().min(2).max(256),
             email: Joi.string().required().min(6).max(256).email({ tlds: { allow: false } }),
             password: Joi.string().min(6).max(30),
-            isBiz: Joi.boolean().required(),
-            // isAdmin: Joi.boolean().required()
+            isBiz: Joi.boolean().required()
         });
-
         const { error, value } = schema.validate({
             name,
             email,
             password,
-            isBiz: true,
-            // isAdmin: true
+            isBiz: false
         });
         if (error) {
             // setError(error.message);
             console.log(error.message)
-            toast.error(error.message, {
-                position: toast.POSITION.TOP_CENTER
-            });
+            toast.error(error.message);
             return;
         }
-
         register(value)
     }
 
@@ -57,7 +58,6 @@ function Business() {
             false,
         );
         if (!res) return;
-
         res.then(response => response.json())
             .then(json => {
                 if (json.error) {
@@ -74,14 +74,11 @@ function Business() {
                         });
                     return;
                 }
-                setUserName(name)
                 navigate('/signin')
             })
-
     }
-
-    return (
-        <div className="p-3 form-max-w m-auto was-validated">
+    return (   
+        <>
             <Title main="Sign up"
                 sub="register to the application"
             />
@@ -100,6 +97,23 @@ function Business() {
                                                 <h1 className="h4 text-gray-900 mb-4">Create an account</h1>
                                             </div>
                                             <div className="p-3 form-max-w m-auto was-validated">
+                                            <div className="">
+                                                    <div className="form-check mb-3 ">
+                                                        <label className="form-label" htmlFor="validationFormCheck1">Your photo</label>
+                                                   
+                                                <input
+                                                type="file"
+                                                //  id="myfile"
+                                                  name="myfile"
+                                                id="basic-image" required
+                                                // type="text"
+                                                className="form-control"
+                                                placeholder="Image"
+                                                value={url}
+                                                onChange={(e) => setUrl(e.target.value)}
+                                            ></input>
+                                                        <div className="invalid-feedback">optionally</div>
+                                                    </div>                                              
                                                 <div className="">
                                                     <div className="form-check mb-3 ">
                                                         <label className="form-label" htmlFor="validationFormCheck1">First Name</label>
@@ -144,14 +158,7 @@ function Business() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="text-center">
-                                                <a className="small" href="forgot-password.html">Forgot Password?</a>
-                                            </div>
                                         </div>
-
-                                        {/* <div className="text-center">
-                            <a className="small" href="register.html">Create an Account!</a>
-                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -159,75 +166,9 @@ function Business() {
                     </div>
                 </div>
             </div>
-        </div>
-
-
-
-
-
-
+            </div>
+        </>
     );
-
 }
-export default Business;
 
-
-{/* <div className="mb-3 form-check">
-                <label className="form-label" htmlFor="validationFormCheck1">Name</label>
-
-                <input
-                    id="validationFormCheck1" required
-
-                    type="text"
-                    className="form-control"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                ></input>
-                <div className="invalid-feedback">Please enter a name.</div>
-
-            </div>
-            <div className="mb-3 form-check">
-                <label className="form-label" htmlFor="validationFormCheck2">Email</label>
-
-                <input
-                    id="validationFormCheck2" required
-
-                    type="email"
-                    className="form-control"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                ></input>
-                <div className="invalid-feedback">Please enter an email.</div>
-
-            </div>
-            <div className="mb-3 form-check">
-                <label className="form-label" htmlFor="validationFormCheck3">Password</label>
-
-                <input
-                    id="validationFormCheck3" required
-
-                    type="password"
-                    className="form-control"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                ></input>
-                <div className="invalid-feedback">Please enter a password.</div>
-
-            </div> */}
-{/* <div className="form-check mt-4">
-               <input
-                   type="checkbox"
-                   className="form-check-input"
-                   placeholder="isBix"
-                   checked={isBiz}
-                   onChange={() => setIsBiz(!isBiz)}
-               ></input>
-           </div> */}
-{/* <button
-                onClick={submit}
-                className="btn btn-primary bng-lg">
-                Sign Up
-            </button> */}
+export default Signup;

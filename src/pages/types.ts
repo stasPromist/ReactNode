@@ -1,18 +1,6 @@
-// export interface ICardData {
-//     id: number;
-//     title: string,
-//     url: string
-//     subTitle: string,
-//     phone: string,
-//     description: string,
-//     address: number,
-  
-   
-//     category: Categories;
 
-// }
 export interface ICardData {
-    
+
     _id: number,
     title: string,
     subTitle: string,

@@ -1,10 +1,10 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Title from "../../components/Title";
+import Title from "../../components/Title/Title";
 import { getRequest, patchRequest } from "../../services/apiService";
 import { toast } from "react-toastify";
 import Joi from "joi";
-import { ISignupData } from "../../Auth/Signup";
+import { ISignupData } from "../Auth/Signup";
 import swal from "sweetalert";
 
 function ShowUser() {
@@ -15,6 +15,7 @@ function ShowUser() {
     const [favCards, setFavCards] = useState<[]>();
     const { id } = useParams();
 
+    //Show specific user by ID
     useEffect(() => {
         const res = getRequest(`users/${id}`);
         if (!res) return;
@@ -46,17 +47,10 @@ function ShowUser() {
         const schema = Joi.object().keys({
             isBiz: Joi.boolean().required(),
         });
-
         const { error, value } = schema.validate({
-            isBiz,
-            // image: {
-            //     url, alt
-            // }
-
+            isBiz
         });
-
         if (error) {
-            // setError(error.message);
             return;
         }
         // setError('');
@@ -113,7 +107,6 @@ function ShowUser() {
                                             disabled
                                         />
                                     </div>
-
                                     <div className="mb-3">
                                         <label
                                             className="form-label">
@@ -141,19 +134,6 @@ function ShowUser() {
                                             placeholder="Location"
                                         />
                                     </div>
-                                    {/* <div className="mb-3">
-                                        <label
-                                            className="form-label">
-                                            favCards
-                                        </label>
-                                        <input
-                                            value={favCards?.toString()}
-                                            onChange={(e) => setFavCards}
-                                            className="form-control me-3"
-                                            type="text"
-                                            placeholder="Location"
-                                        />
-                                    </div> */}
                                     <div className="d-flex justify-content-between">
                                         <button
                                             onClick={handleClick}

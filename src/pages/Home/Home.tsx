@@ -1,127 +1,14 @@
-// import { any } from "joi";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-// import AllCardsList from "../../components/AllCardsList";
 import ButtonBars from "../../components/ButtonBars";
-// import Cards from "../../components/Cards";
-import Title from "../../components/Title";
+import Title from "../../components/Title/Title";
 import { getRequest, patchRequest } from "../../services/apiService";
-// import { data } from "../../data";
 import { ICardData } from "../Cards/CardsList";
-// import { data } from "./data";
-// import { data } from "./data";
 import './Home.css';
 import { Categories } from "../types";
 import { AppContext } from "../../App";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import Entarence from "../../components/Entarence";
-// import Entarence from "../../components/Entarence";
-import swal from "sweetalert";
-
-
-// const data: any = [];
-
-// function Home() {
-
-
-
-
-
-//     const [cards, setCards] = useState<Array<ICardData>>([]);
-
-//     function getCards() {
-
-//         const res = getRequest(`cardsAll`);
-//         console.log()
-
-//         if (!res) return;
-//         res.then(response => response.json())
-//             .then(json => {
-//                 console.log(json)
-//                 if (json.error) {
-//                     toast.error(json.error,
-//                         {
-//                             position: "top-center",
-//                             autoClose: 5000,
-//                             hideProgressBar: false,
-//                             closeOnClick: true,
-//                             pauseOnHover: true,
-//                             draggable: true,
-//                             progress: undefined,
-//                             theme: "colored",
-//                         });
-//                     return;
-//                 }
-
-//                 setCards(json);
-
-//             })
-//     }
-//     useEffect(getCards, []);
-
-
-
-
-//     const [display, setDisplay] = useState('grid');
-//     const [search, setSearch] = useState<string>('');
-
-//     function handleDisplayclick(displayMode: string) {
-//         setDisplay(displayMode);
-//     };
-
-
-//     function handleSearch(value: string) {
-
-//         const title = value.toLowerCase();
-//         let result = [...data];
-
-//         if (title.length > 0) {
-//             result = [...data].filter(offer =>
-//                 offer.location.toLowerCase().includes(title))
-//         }
-//         setCards(result);
-//         setSearch(value);
-//     }
-
-//     return (
-//         <>
-//          <Title
-//     main="BUSINESS CARD APP"
-//     sub="Here you will find business cards"
-// />
-
-//             {
-
-//                 cards.map(card =>
-//                     <div key={card._id}>
-//                         <div className="mb-5 shadow-lg p-3 mb-5 bg-body rounded">
-//                             <div className="col">
-//                                 <div className="card h-25">
-//                                     <img src={card.image.url} className="card-img-top" alt={card.image.alt} />
-//                                     <div className="card-body">
-//                                         <h5 className="card-title">{card.title}</h5>
-//                                         <p className="card-text">{card.subTitle}</p>
-//                                         <p className="card-text">{card.address}</p>
-//                                         <p className="card-text">{card.phone}</p>
-//                                         <p className="card-text">{card.bizNumber}</p>
-//                                     </div>
-
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 )
-//             }
-
-
-
-
-//         </>
-//     );
-// }
-
-
-// const data:any = [<AllCardsList/>];
+import { Link, useNavigate } from "react-router-dom";
+import Entarence from "../Entarence/Entarence";
 
 export interface Props {
     title: string,
@@ -132,7 +19,6 @@ export interface Props {
         url: string,
         alt: string
     },
-    
     CategoryClick: Function;
 };
 
@@ -143,9 +29,6 @@ function Home() {
     const context = useContext(AppContext);
     const navigate = useNavigate();
     const isLoggedIn = context !== null && context.userName.length > 0;
-
-
-
     const data = cards;
     const [display, setDisplay] = useState('grid');
     const [selectedCategory, setSelectedCategory] = useState(Categories.all);
@@ -213,7 +96,6 @@ function Home() {
     }
     useEffect(getCards, []);
 
-
     function moveTo(card: ICardData) {
         const res = patchRequest(
             `users/favCards/${card._id}`,
@@ -222,9 +104,6 @@ function Home() {
         if (!res) return;
         res.then(response => response.json())
             .then(json => {
-                // swal({
-                //     icon: "success",
-                // });
                 navigate('/myFavorCards');
                 toast.error('Something wrong! Try again', {
                     position: toast.POSITION.TOP_CENTER
@@ -248,6 +127,10 @@ function Home() {
                     handleSearch={handleSearch}
                 />
             }
+            {
+                !isLoggedIn &&
+                <Entarence />
+            }
 
             <div className={`${display} p-5 `} >
                 {
@@ -267,14 +150,7 @@ function Home() {
                                         <div className="card h-100 shadow-lg p-3 mb-5 bg-body rounded">
                                             <img src={card.image.url} className=" card-img-top zise" alt={card.image.alt} />
                                             <div className="card-body">
-                                                {/* <div className="badge text-bg-info"
-                                                onClick={(e) => CategoryClick(title)}
-                                            >{title}</div> */}
                                                 <h5 className="card-title"><span className="text-success text-uppercase">Name: </span>{card.title}</h5>
-                                                {/* <p className="card-text"><span className="text-success text-uppercase">Description: </span>{card.subTitle}</p>
-                                                <p className="card-text"><span className="text-success text-uppercase">Ingredients: </span>{card.address}</p>
-                                                <p className="card-text"><span className="text-success text-uppercase">Price: </span>{card.phone}</p> */}
-                                                {/* <p className="card-text">{category}</p> */}
                                                 <p className="card-text"><span className="text-success text-uppercase">Category: </span>{card.category}</p>
                                             </div>
                                             {
@@ -300,70 +176,10 @@ function Home() {
                             </div>
                         )
                     )}
-                {
-                    !isLoggedIn &&
-                   <Entarence />                   
-                }
-                    </div>
+            </div>
 
         </>
-            );
+    );
 }
 
-            export default Home;
-
-
-
-
-
-
-
-
-            // cards.map(card =>
-                    //     <AllCardsList
-                    //         key={card._id}
-                    //         {...card}
-                    //         CategoryClick={categoryChange}
-
-                    //     />
-                    // ) 
-
-
-
-
-
-                    // cards.map(card =>
-                    //     <div key={card._id}>
-                    //       <div className=" pb-5 ">
-                    //             <div className="col p-5 d-flex justify-content-center  ">
-                    //                 <div className="card   shadow-lg p-3 mb-5 bg-body rounded">
-                    //                     <img src={card.image.url} className=" card-img-top" alt={card.image.alt} />
-                    //                     <div className="card-body">
-                    //                         {/* <div className="badge text-bg-info"
-                    //                             onClick={(e) => CategoryClick(title)}
-                    //                         >{title}</div> */}
-                    //                         <h5 className="card-title">{card.title}</h5>
-                    //                         <p className="card-text">{card.subTitle}</p>
-                    //                         <p className="card-text">{card.address}</p>
-                    //                         <p className="card-text">{card.phone}</p>
-                    //                         {/* <p className="card-text">{category}</p> */}
-                    //                     </div>
-                    //                     {
-
-                    //                         isLoggedIn &&
-                    //                         <Link
-
-                    //                             onClick={() => moveTo(card)}
-                    //                             to={`/myFavorCards`}
-
-                    //                         >
-
-                    //                             <i className="bi bi-cloud-upload-fill"></i>
-                    //                         </Link>
-                    //                     }
-                    //                 </div>
-                    //             </div>
-                    //         </div>
-
-                    //     </div>
-                    // )
+export default Home;

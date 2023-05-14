@@ -4,46 +4,41 @@ import { createContext, useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import './App.css';
-import IsBizOnly from './Auth/isBizOnly';
-import RouteGuard from './Auth/RouteGuard';
-import Signin from './Auth/Signin';
-import Signup, { ISignupData } from './Auth/Signup';
-import { setToken } from './Auth/Token';
+import IsBizOnly from './pages/Auth/isBizOnly';
+import RouteGuard from './pages/Auth/RouteGuard';
+import Signin from './pages/Auth/Signin';
+import Signup, { ISignupData } from './pages/Auth/Signup';
+import { setToken } from './pages/Auth/Token';
 import AllCardsList from './components/AllCardsList';
-import Business from './Auth/Business';
-import Businesscard from './components/Businesscard';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import MyFavorCards from './components/MyFavorCards';
-import OneCard from './pages/Cards/OneCard';
+import Business from './pages/Auth/Business';
+import Businesscard from './pages/Cards/CreateCard';
+import Footer from './components/Footer/Footer';
+import Header from './components/Header/Header';
+import MyFavorCards from './pages/FavoriteCards/MyFavorCards';
+import OneCard from './pages/ShowOneCard/ShowOneCard';
 import About from './pages/About/About';
 import CardsList from './pages/Cards/CardsList';
-import Edit from './components/Edit';
+import Edit from './components/EditCard';
 import Home from './pages/Home/Home';
-import { getRequest, postRequest, postRequest2 } from './services/apiService';
+import {patchRequest, postRequest } from './services/apiService';
 import AllUsers from './pages/Users/AllUsers';
 import ShowUser from './pages/Users/ShowUser';
-import Info from './components/Info';
-import ResetPassword from './pages/ResetPassword/ResetPassword';
-import ArrayOfFavCards from './components/ArrayOfFavCards';
-// import IsAdmin from './Auth/IsAdmin';
-
+import Info from './pages/Info/Info';
+import ResetPassword from './components/ResetPassword';
+import Entarence from './pages/Entarence/Entarence';
 interface ISignupDatar {
   email: string,
   password: string,
-  // isBiz?: Boolean,
 }
-
 interface ISignupDatar2 {
   email: string,
   password: string,
-  // isBiz?: Boolean,
 }
 interface Context {
   isBiz: boolean;
   handleLogout: Function;
   signin: Function;
-  signin2: Function;
+  updatePassword: Function;
   userName: string;
   isAdmin: boolean;
 }
@@ -67,12 +62,9 @@ function App() {
     res.then(response => response.json())
       .then(json => {
         if (json.error) {
-          toast.error('no such user. Go to sign up', {
+          toast.error(json.error, {
             position: toast.POSITION.TOP_CENTER
           });
-          // toast.error("no such user. Go to sign up")
-          // navigate('/signup')
-         
         } else {
           setToken(json.token);
           setUserName(json.user)
@@ -87,103 +79,76 @@ function App() {
       )
   }
 
+  function updatePassword(data: ISignupDatar2) {
+    const res = patchRequest(
+      'users/newPassword',
+      data,
 
-
-
-  function signin2(data:ISignupDatar2) {
-    const res = postRequest2(
-      'users/signin2',
-      data, 
-      false
     );
     if (!res) return;
     res.then(response => response.json())
       .then(json => {
+        toast.success("Successully", {
+          position: toast.POSITION.TOP_CENTER
+        });
         console.log(json)
         if (json.error) {
           console.log('Hello')
-          toast.error('no such user. Go to sign up', {
+          toast.error(json.error, {
             position: toast.POSITION.TOP_CENTER
           });
-          // toast.error("no such user. Go to sign up")
-          // navigate('/signup')
-          
         } else {
-         
           setToken(json.token);
           setUserName(json.user)
           setISBiz(json.isBiz);
           setAdmin(json.isAdmin);
           setUserName(json.id)
-          // navigate('/resetpassword')
+          navigate('/')
         }
       }).catch((error) => {
         console.log(error)
       }
       )
   }
-  
+
   useEffect(() => {
     handleLogout()
   }, []);
 
-  // function logoyyyu() {
-  //   const timer = setTimeout(() => {
-  //     console.log('This will run after 1 second!')
-  //   }, 2000);
-  //   return () => clearTimeout(timer);
-  // }
- 
-
-  
-  
   function handleLogout() {
-      setISBiz(false);
-      setUserName('');
-      navigate('/');
+    setISBiz(false);
+    setUserName('');
+    navigate('/entarence');
   }
 
   return (
-
     <>
       <AppContext.Provider value={{
         isBiz,
         userName,
         handleLogout,
         signin,
-        signin2,
+        updatePassword,
         isAdmin,
-       
-       
-       
       }}>
 
-       
         <Header />
         <ToastContainer />
         <Routes>
-        {/* <Route
-            path='/'
-            element={<Main />}
-          /> */}
+          <Route
+            path='/entarence'
+            element={<Entarence />}
+          />
           <Route
             path='/'
             element={<Home />}
-            
           />
-           <Route
-            path='/arrayOfFavCards/:id'
-            element={<ArrayOfFavCards />}
-            
-          />
-           <Route
+          <Route
             path='/resetpassword'
-            element={<ResetPassword handler2={signin2}
+            element={<ResetPassword resetPassword={updatePassword}
             />}
-            
           />
-         
-           <Route
+          <Route
             path='/info'
             element={<Info />}
           />
@@ -194,19 +159,14 @@ function App() {
               alt: ''
             }} category={''} CategoryClick={any} />}
           />
-
           <Route
             path='/signup'
             element={<Signup />}
           />
-          {/* <Route
-            path='/IsAdmin'
-            element={<IsAdmin />}
-          /> */}
           <Route
             path='/signin'
             element={<Signin handler={signin}
-            handleLog={handleLogout}
+              handleLog={handleLogout}
             />}
           />
           <Route
@@ -217,7 +177,6 @@ function App() {
               </RouteGuard>
             }
           />
-
           <Route
             path='/business'
             element={<Business />}
@@ -250,25 +209,19 @@ function App() {
             path='/businesscard'
             element={<Businesscard />}
           />
-
           <Route
             path='/edit/:id'
             element={<RouteGuard>
               <Edit />
             </RouteGuard>}
           />
-
           <Route
             path='/isBiz'
             element={<IsBizOnly />}
           />
-
         </Routes>
-
-
         <Footer />
       </AppContext.Provider>
-
     </>
   );
 }

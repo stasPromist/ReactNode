@@ -2,6 +2,15 @@ const { array } = require('joi');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
 const userSchema = new mongoose.Schema({
+    image: {
+        url: {
+            type: String,
+            required: false,
+            minlength: 2,
+            maxlength: 1024,
+        },
+        alt: { type: String, required: false, minlength: 2, maxlength: 256 },
+    },
     name: {
         type: String,
         require: true,
@@ -33,11 +42,10 @@ const userSchema = new mongoose.Schema({
     },
     favCards: [
         {
-          type: mongoose.Schema.ObjectId,
-          ref: 'Card'
+            type: mongoose.Schema.ObjectId,
+            ref: 'Card'
         }
-        ]
-         
+    ]
 });
 
 const User = mongoose.model('User', userSchema);

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import Title from "./Title";
+import Title from "../../components/Title/Title";
 
 function Info() {
     return (
@@ -13,7 +13,6 @@ function Info() {
                     <span className="bg">Three types of registration</span>
                 </div>
                 <div className="container">
-
                     <ul className="list-group list-group-numbered">
                         <li className="list-group-item text-primary fw-bold">Regular User
                             <NavLink className="nav-link active text-primary d-flex justify-content-end "
@@ -25,7 +24,6 @@ function Info() {
                                 <li className="list-group-item">Can see all cards.</li>
                                 <li className="list-group-item">Can create your own favourite list. </li>
                             </ul>
-
                         </li>
                         <li className="list-group-item text-success fw-bold">Business User
                             <NavLink className="nav-link active text-primary d-flex justify-content-end text-success"
@@ -58,13 +56,9 @@ function Info() {
                                 <li className="list-group-item">Can update status of users.</li>
                             </ul>
                         </li>
-                        {/* <li className="list-group-item">A fourth item</li>
-                    <li className="list-group-item">And a fifth one</li> */}
                     </ul>
                 </div>
             </div>
-
-
         </>
     );
 }

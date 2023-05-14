@@ -7,16 +7,15 @@ function User() {
 
     return (
         <>
-        {
-            (context.userName.length === 0) ? 
-                null :
-                (
-                    <div>
-                    Hello {context.userName}
-                </div>
-                )
-        }
-           
+            {
+                (context.userName.length === 0) ?
+                    null :
+                    (
+                        <div>
+                            Hello {context.userName}
+                        </div>
+                    )
+            }
         </>
     );
 }

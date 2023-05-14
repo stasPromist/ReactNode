@@ -1,30 +1,25 @@
 import Joi from "joi";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { getToken, setToken } from "../Auth/Token";
-import { postRequest } from "../services/apiService";
-import Title from "./Title";
+import { setToken } from "../Auth/Token";
+import { postRequest } from "../../services/apiService";
+import Title from "../../components/Title/Title";
 import swal from "sweetalert";
 
 export interface ICardData {
     title: string,
-    // subTitle: string,
     description: string,
     ingredients: string,
     address: StaticRangeInit,
     phone: string,
     url: string
     category: string
-
 }
 
 function Businesscard() {
     const navigate = useNavigate();
     const [title, setTitle] = useState<string>('');
     const [category, setCategory] = useState<string>('');
-
-    // const [subTitle, setSubTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [ingredients, setIngredients] = useState<string>('');
     const [address, setAddress] = useState<string>('');
@@ -35,40 +30,34 @@ function Businesscard() {
         console.log('hello');
         const schema = Joi.object().keys({
             title: Joi.string().min(2).max(256).required(),
-            // subTitle: Joi.string().min(2).max(256).required(),
             description: Joi.string().min(2).max(1024).required(),
             ingredients: Joi.string().min(2).max(1024).required(),
             address: Joi.string().min(2).max(256).required(),
             phone: Joi.string().min(9).max(14).required(),
             url: Joi.string().min(2).max(256).required(),
             category: Joi.string().min(2).max(256).required(),
-
         });
 
         const { error, value } = schema.validate({
             title,
-            // subTitle,
             description,
             ingredients,
             address,
             phone,
             url,
             category
-
         });
         if (error) {
             console.log('ededde');
             console.log(error.message);
             return;
         }
-
         register(value);
     }
 
 
 
     function register(data: ICardData) {
-
         const res = postRequest(
             'cards',
             data,
@@ -83,33 +72,14 @@ function Businesscard() {
                     icon: "success",
                 });
                 if (json.error) {
-
-
                     setToken(json.token);
-
-                    // toast.error(json.error,
-                    //     {
-                    //         position: "top-center",
-                    //         autoClose: 5000,
-                    //         hideProgressBar: false,
-                    //         closeOnClick: true,
-                    //         pauseOnHover: true,
-                    //         draggable: true,
-                    //         progress: undefined,
-                    //         theme: "colored",
-                    //     });
-
-
                     return;
                 }
-               
                 navigate('/cardslist')
             })
-
     }
     return (
         <>
-
             <Title main="Create you card"
                 sub="Open product card"
             />
@@ -143,19 +113,7 @@ function Businesscard() {
                                                 onChange={(e) => setCategory(e.target.value)}
                                             ></input>
                                             <div className="invalid-feedback">Category invalid</div>
-
                                         </div>
-                                        {/* <div className="mb-3">
-                                            <label htmlFor="basic-name" className="form-label">Subtitle</label>
-                                            <input
-                                                id="basic-name"
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="Biz Name"
-                                                value={subTitle}
-                                                onChange={(e) => setSubTitle(e.target.value)}
-                                            ></input>
-                                        </div> */}
                                         <div className="mb-3 form-check">
                                             <label htmlFor="basic-description" className="form-label">Description</label>
                                             <input
@@ -167,7 +125,6 @@ function Businesscard() {
                                                 onChange={(e) => setDescription(e.target.value)}
                                             ></input>
                                             <div className="invalid-feedback">Description invalid</div>
-
                                         </div>
                                         <div className="mb-3 form-check">
                                             <label htmlFor="basic-description" className="form-label">Ingredients</label>
@@ -180,7 +137,6 @@ function Businesscard() {
                                                 onChange={(e) => setIngredients(e.target.value)}
                                             ></input>
                                             <div className="invalid-feedback">Ingredients invalid</div>
-
                                         </div>
                                         <div className="mb-3 form-check">
                                             <label htmlFor="basic-address" className="form-label">Business Address</label>
@@ -194,7 +150,6 @@ function Businesscard() {
                                                 onChange={(e) => setAddress(e.target.value)}
                                             ></input>
                                             <div className="invalid-feedback">Address invalid</div>
-
                                         </div>
                                         <div className="mb-3 form-check">
                                             <label htmlFor="basic-phone" className="form-label">Business Phone</label>
@@ -207,7 +162,6 @@ function Businesscard() {
                                                 onChange={(e) => setPhone(e.target.value)}
                                             ></input>
                                             <div className="invalid-feedback">Phone invalid</div>
-
                                         </div>
                                         <div className="mb-3 form-check">
                                             <label htmlFor="basic-image" className="form-label">Business Image</label>
@@ -220,16 +174,13 @@ function Businesscard() {
                                                 onChange={(e) => setUrl(e.target.value)}
                                             ></input>
                                             <div className="invalid-feedback">Image invalid</div>
-
                                         </div>
-
                                         <div className="d-flex justify-content-between">
                                             <button
                                                 onClick={submit}
                                                 className="btn bg bng-lg">
                                                 Create Card
                                             </button>
-
                                             <Link
                                                 to="/cardslist"
                                                 className="btn bg"

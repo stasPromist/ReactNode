@@ -2,14 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AppContext } from "../App";
-import { setToken } from "../Auth/Token";
 import { ICardData } from "../pages/Cards/CardsList";
-import { getRequest, patchRequest, postRequest } from "../services/apiService";
+import { getRequest, patchRequest } from "../services/apiService";
 
 export interface Props {
     title: string,
     subTitle: string,
-
     address: string,
     phone: string,
     image: {
@@ -18,22 +16,8 @@ export interface Props {
     },
     category: string,
     CategoryClick: Function;
-
-
-
 };
 
-
-// export interface ICardData {
-//     _id: string,
-//     title: string,
-//     subTitle: string,
-//     description: string,
-//     address: StaticRangeInit,
-//     phone: string,
-//     url: string
-
-// }
 
 function AllCardsList({ title, subTitle, address, phone, image: { url, alt }, category, CategoryClick }: Props) {
     const context = useContext(AppContext);
@@ -42,10 +26,8 @@ function AllCardsList({ title, subTitle, address, phone, image: { url, alt }, ca
     const navigate = useNavigate();
 
     function getCards() {
-
         const res = getRequest(`cardsAll`);
         console.log()
-
         if (!res) return;
         res.then(response => response.json())
             .then(json => {
@@ -64,22 +46,17 @@ function AllCardsList({ title, subTitle, address, phone, image: { url, alt }, ca
                         });
                     return;
                 }
-
                 setCards(json);
             })
     }
     useEffect(getCards, []);
 
-
     function moveTo(card: ICardData) {
-
         const res = patchRequest(
             `users/favCards/${card._id}`,
             { ...card, currentId: context?.userName }
-
         );
         if (!res) return;
-
         res.then(response => response.json())
             .then(json => {
 
@@ -90,12 +67,10 @@ function AllCardsList({ title, subTitle, address, phone, image: { url, alt }, ca
 
     return (
         <>
-
             {
-
                 cards.map(card =>
-                    <div  className="d-flex justify-content-center p-5 mb-5" key={card._id}>
-                      <div className="card mb-3 m-5 g-4  w-50 ">
+                    <div className="d-flex justify-content-center p-5 mb-5" key={card._id}>
+                        <div className="card mb-3 m-5 g-4  w-50 ">
                             <div className="col">
                                 <div className="card h-100 shadow-lg p-3 mb-5 bg-body rounded ">
                                     <img src={url} className="card-img-top" alt={alt} />
@@ -110,26 +85,20 @@ function AllCardsList({ title, subTitle, address, phone, image: { url, alt }, ca
                                         <p className="card-text">{category}</p>
                                     </div>
                                     {
-
                                         isLoggedIn &&
                                         <Link
-
                                             onClick={() => moveTo(card)}
                                             to={`/myFavorCards`}
-
                                         >
-
                                             <i className="bi bi-cloud-upload-fill"></i>
                                         </Link>
                                     }
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 )
             }
-
         </>
     );
 }

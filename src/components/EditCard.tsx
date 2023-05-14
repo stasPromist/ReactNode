@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getRequest, patchRequest } from "../services/apiService";
 import { ICardData } from "../pages/Cards/CardsList";
-import Title from "./Title";
+import Title from "./Title/Title";
 import swal from "sweetalert";
 
 
@@ -20,6 +20,7 @@ function Edit() {
     const [error, setError] = useState<string>('');
     const { id } = useParams();
 
+    //Show specific card by ID
     useEffect(() => {
         const res = getRequest(`cards/${id}`);
         if (!res) return;
@@ -65,7 +66,6 @@ function Edit() {
             image: {
                 url, alt
             }
-
         });
 
         if (error) {
@@ -75,7 +75,8 @@ function Edit() {
         setError('');
         updateCard(value);
     }
-
+    
+    //Update card by ID
     function updateCard(card: ICardData) {
         const res = patchRequest(
             `cards/${id}`,
@@ -212,7 +213,6 @@ function Edit() {
                                             placeholder="Alt"
                                         />
                                     </div>
-
                                     <button
                                         onClick={handleClick}
                                         className="btn btn-info me-3"
@@ -227,7 +227,6 @@ function Edit() {
                                         Cancel
                                     </Link>
                                 </div>
-
                                 {
                                     error &&
                                     <div className="text-danger">
