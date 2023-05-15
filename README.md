@@ -1,4 +1,4 @@
-
+A little about this project. This site was created for those who love to create and use handmade cosmetics, which are created from natural ingredients. to publish your products you need to register as a business user. if the user is only interested in viewing products and adding to favorites, he needs to register as a regular user. there is also an administrator who is appointed through the database. it has the same capabilities as other users. also it is able to edit the status of any user or delete. in the navigation you can find a page that explains in detail how to use this site.
 
 
 
